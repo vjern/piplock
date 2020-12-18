@@ -1,6 +1,6 @@
 # piplock
 
-Takes a python requirements file in input. Output the file as is in addition to frozen versions for the unlocked requirements found in the file, eg:
+Takes a python requirements file in input. Outputs the file as is in addition to frozen versions for the unlocked requirements found in the file, eg:
 
 requirements.txt
 

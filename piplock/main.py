@@ -7,6 +7,7 @@ import urllib.request
 
 PYPI_URL = "https://pypi.org/pypi/%s/json"
 VERBOSE = False
+COMPACT = False
 
 
 def err(*a):
@@ -47,20 +48,11 @@ def round_up(filepath: str):
     with open(filepath) as f:
         for line in map(str.strip, f):
             if line.startswith('#') or not line:
-                print(line)
+                if not COMPACT:
+                    print(line)
                 continue
             name = get_name(line)
             if line != name:
                 print(line)
             else:
                 print(name + '==' + get_latest(name))
-
-
-if __name__ == "__main__":
-    filepath = sys.argv[1:] and sys.argv[1]
-    if not filepath:
-        print('Missing <file> argument')
-        exit(1)
-    if '-v' in sys.argv:
-        VERBOSE = True
-    round_up(filepath)
