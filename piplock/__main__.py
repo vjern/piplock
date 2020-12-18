@@ -3,7 +3,7 @@ from . import core
 from typing import Sequence
 
 
-def cli(args: Sequence[str] = sys.argv):
+def main(args: Sequence[str] = sys.argv):
     filepath = args[1:] and args[1]
     if not filepath:
         print('Missing <file> argument')
@@ -17,4 +17,4 @@ def cli(args: Sequence[str] = sys.argv):
 
 
 if __name__ == "__main__":
-    cli()
+    main()
