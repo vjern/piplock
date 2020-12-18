@@ -10,7 +10,7 @@ pytest==5.0.0
 ```
 with
 ```
-bash lock.sh requiremenst.txt > requirements.lock
+piplock requiremenst.txt > requirements.lock
 ```
 becomes
 ```
