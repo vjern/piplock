@@ -2,7 +2,7 @@
 
 Takes a python requirements file in input.
 
-Outputs a similar file with all missing version locks (defaults to latest pypi release).
+Fills in all missing version locks (defaults to latest pypi release).
 
 With `requirements.txt` containing:
 ```
