@@ -11,6 +11,7 @@ def main(args: Sequence[str] = sys.argv):
     args = args[2:]
     if '-v' in args:
         core.VERBOSE = True
+        core.COMPACT = True
     if '-c' in args:
         core.COMPACT = True
     core.round_up(str(filepath))

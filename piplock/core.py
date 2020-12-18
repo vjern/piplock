@@ -31,10 +31,16 @@ def get_name(line: str) -> str:
     return m.group()
 
 
+def get_releases(name: str) -> dict:
+    return json.loads(web.get(PYPI_URL % name).decode())['releases']
+
+
 def get_latest(name: str) -> str:
-    data = json.loads(web.get(PYPI_URL % name).decode())
+    err('Fetching latest release number for', name)
+    releases = get_releases(name)
+    err('available releases:', list(releases.keys()))
     eligible_releases = [
-        r for r in data['releases']
+        r for r in releases
         if re.match(r'^[0-9.]+$', r)
     ]
     latest_release = sorted(
