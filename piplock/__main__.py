@@ -1,5 +1,5 @@
 import sys
-from . import main as core
+from . import core
 from typing import Sequence
 
 
