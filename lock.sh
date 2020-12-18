@@ -9,7 +9,7 @@ latest() {
 }
 
 name() {
-    echo "$1" | grep -Po '^[a-z\[\]-]*'
+    echo "$1" | grep -Po '^[\w\[\]-]*'
 }
 
 file=$1
