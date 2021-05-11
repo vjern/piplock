@@ -5,7 +5,7 @@ setup(
     name='piplock',
     description='CLI tool to produce locked python requirements files',
     author='vjern',
-    version='0.1.0',
+    version='1.0.0',
     packages=['piplock'],
     python_requires='>=3.6',
     keywords='pip, dependency-locking',
