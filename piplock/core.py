@@ -8,6 +8,7 @@ import urllib.request
 PYPI_URL = "https://pypi.org/pypi/%s/json"
 VERBOSE = False
 COMPACT = False
+INPLACE = False
 
 
 def err(*a):
@@ -35,7 +36,7 @@ def get_releases(name: str) -> dict:
     return json.loads(web.get(PYPI_URL % name).decode())['releases']
 
 
-def get_latest(name: str) -> str:
+def get_latest_version(name: str) -> str:
     err('Fetching latest release number for', name)
     releases = get_releases(name)
     err('available releases:', list(releases.keys()))
@@ -50,15 +51,19 @@ def get_latest(name: str) -> str:
     return latest_release
 
 
-def round_up(filepath: str):
+def round_up(filepath: str, file = sys.stdout, inplace: bool = False):
     with open(filepath) as f:
-        for line in map(str.strip, f):
-            if line.startswith('#') or not line:
-                if not COMPACT:
-                    print(line)
-                continue
-            name = get_name(line)
-            if line != name:
-                print(line)
-            else:
-                print(name + '==' + get_latest(name))
+        lines = list(f)
+    err(lines)
+    if inplace:
+        f = open(filepath, mode='r')
+    for line in map(str.strip, lines):
+        if line.startswith('#') or not line:
+            if not COMPACT:
+                print(line, file=file)
+            continue
+        name = get_name(line)
+        if line != name:
+            print(line, file=file)
+        else:
+            print(name + '==' + get_latest_version(name), file=file)

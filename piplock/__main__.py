@@ -14,7 +14,8 @@ def main(args: Sequence[str] = sys.argv):
         core.COMPACT = True
     if '-c' in args:
         core.COMPACT = True
-    core.round_up(str(filepath))
+    inplace = '-i' in args
+    core.round_up(str(filepath), inplace=inplace)
 
 
 if __name__ == "__main__":
