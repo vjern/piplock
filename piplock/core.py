@@ -1,4 +1,6 @@
 import re
+import os
+import io
 import sys
 import json
 import http.client
@@ -8,6 +10,8 @@ import urllib.request
 PYPI_URL = "https://pypi.org/pypi/%s/json"
 VERBOSE = False
 COMPACT = False
+INPLACE = False
+YESMAN = False
 
 
 def err(*a):
@@ -50,15 +54,65 @@ def get_latest(name: str) -> str:
     return latest_release
 
 
-def round_up(filepath: str):
+def round_up(filepath: str, file=sys.stdout):
+
     with open(filepath) as f:
-        for line in map(str.strip, f):
-            if line.startswith('#') or not line:
-                if not COMPACT:
+        lines = f.readlines()
+
+    for line in map(str.strip, lines):
+        if line.startswith('#') or not line:
+            if not COMPACT:
+                print(line, file=file)
+                if INPLACE:
                     print(line)
-                continue
-            name = get_name(line)
-            if line != name:
+            continue
+        name = get_name(line)
+        if line != name:
+            print(line, file=file)
+            if INPLACE:
                 print(line)
-            else:
-                print(name + '==' + get_latest(name))
+        else:
+            vv = name + '==' + get_latest(name)
+            print(vv, file=file)
+            if INPLACE:
+                print(vv)
+
+
+def yesno(question: str, default: str = 'y', skip: bool = False) -> bool:
+    if skip is not None:
+        return skip
+    default = default.lower()
+    ans = default.upper() + '/' + 'yn'.strip(default)
+    return input(f'{question} ({ans})') in ['', 'y', 'Y']
+
+
+def implicit():
+
+    # detect file
+    src = 'requirements.txt'
+    if not os.path.exists(src):
+        print('No pip requirements file found')
+        exit(1)
+
+    # write to requirements.txt if inplace
+    dest = 'requirements.lock'
+    if INPLACE:
+        dest = src
+    else:
+        if os.path.exists(dest):
+            YESMAN or print(f'\u2715 File {dest!r} already exists', end=' ')
+            cont = yesno('Replace ?', skip=YESMAN or None)
+            # YESMAN and print()
+            cont or exit(1)
+
+    ss = io.StringIO()
+    print('Fetching ...')
+    round_up(src, ss)
+    ss.seek(0)
+
+    with open(dest, mode='w') as f:
+        lines = ss.readlines()
+        f.writelines(lines)
+
+    print('\033[A', end='')
+    print(f'\u2714 Wrote frozen pip requirements to {dest} ({len(lines)})')
