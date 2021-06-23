@@ -13,6 +13,9 @@ def main(args: List[str] = sys.argv):
     if '-c' in args:
         core.COMPACT = True
         args.pop(args.index('-c'))
+    if '-s' in args:
+        core.SORTED = True
+        args.pop(args.index('-s'))
     if '-i' in args:
         core.INPLACE = True
         args.pop(args.index('-i'))

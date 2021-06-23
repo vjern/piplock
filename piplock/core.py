@@ -12,6 +12,7 @@ VERBOSE = False
 COMPACT = False
 INPLACE = False
 YESMAN = False
+SORTED = False
 
 
 def err(*a):
@@ -112,6 +113,8 @@ def implicit():
 
     with open(dest, mode='w') as f:
         lines = ss.readlines()
+        if SORTED:
+            lines = sorted(lines)
         f.writelines(lines)
 
     print('\033[A', end='')
