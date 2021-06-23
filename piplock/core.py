@@ -100,7 +100,7 @@ def implicit():
         dest = src
     else:
         if os.path.exists(dest):
-            YESMAN or print(f'\u2715 File {dest!r} already exists', end=' ')
+            YESMAN or print(f'\u2715 File {dest!r} already exists.', end=' ')
             cont = yesno('Replace ?', skip=YESMAN or None)
             # YESMAN and print()
             cont or exit(1)
