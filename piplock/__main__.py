@@ -50,7 +50,7 @@ def main(args: List[str] = sys.argv):
         return core.implicit()
 
     filepath = args[0]
-    core.round_up(str(filepath))
+    core.round_up(str(filepath), inplace=core.INPLACE)
 
 
 if __name__ == "__main__":

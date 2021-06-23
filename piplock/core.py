@@ -55,28 +55,28 @@ def get_latest(name: str) -> str:
     return latest_release
 
 
-def round_up(filepath: str, file=sys.stdout):
+def round_up(filepath: str, file=sys.stdout, *, inplace: bool = False):
 
     with open(filepath) as f:
         lines = f.readlines()
+
+    if inplace:
+        file = open(filepath, mode='w')
 
     for line in map(str.strip, lines):
         if line.startswith('#') or not line:
             if not COMPACT:
                 print(line, file=file)
-                if INPLACE:
-                    print(line)
             continue
         name = get_name(line)
         if line != name:
             print(line, file=file)
-            if INPLACE:
-                print(line)
         else:
             vv = name + '==' + get_latest(name)
             print(vv, file=file)
-            if INPLACE:
-                print(vv)
+
+    if inplace:
+        print(f'\u2714 Wrote frozen pip requirements to {filepath}')
 
 
 def yesno(question: str, default: str = 'y', skip: bool = False) -> bool:
