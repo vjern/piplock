@@ -3,9 +3,27 @@ from . import core
 from typing import List
 
 
+def _help():
+    return """
+piplock [FILE] [OPTIONS]
+
+FILE defaults to 'requirements.txt' if omitted.
+
+Options:
+    -c      Compact (no comments or empty lines)
+    -v      Verbose (extra logs for debug purposes)
+    -s      Sorted (will sort the output)
+    -i      Inplace (file will be edited inplace)
+    -y, -q  Set 'yes' answer as default answer to all prompts
+"""
+
+
 def main(args: List[str] = sys.argv):
 
     args = args[1:]
+    if {'-h', '--help', 'help'} & set(args):
+        print(_help())
+        exit(0)
     if '-v' in args:
         core.VERBOSE = True
         core.COMPACT = True
