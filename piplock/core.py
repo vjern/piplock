@@ -4,6 +4,7 @@ import io
 import sys
 import json
 import http.client
+import urllib
 import urllib.request
 
 
@@ -37,7 +38,17 @@ def get_name(line: str) -> str:
 
 
 def get_releases(name: str) -> dict:
-    return json.loads(web.get(PYPI_URL % name).decode())['releases']
+    try:
+        return json.loads(web.get(PYPI_URL % name).decode())['releases']
+    except urllib.error.HTTPError as e:
+        if e.code == 404:
+            print(f'\u2715 No such package: {name!r}')
+        else:
+            print(f'\u2715 Could not retrieve info for package {name!r}')
+        exit(1)
+    except (KeyError, AssertionError) as e:
+        print(f'\u2715 Could not retrieve info for package {name!r}')
+        exit(1)
 
 
 def get_latest(name: str) -> str:
