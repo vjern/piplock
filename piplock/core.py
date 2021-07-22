@@ -44,7 +44,7 @@ def get_releases(name: str) -> dict:
         if e.code == 404:
             print(f'\u2715 No such package: {name!r}')
         else:
-            print(f'\u2715 Could not retrieve info for package {name!r}')
+            print(f'\u2715 Could not retrieve info for package {name!r} (status code {e.code})')
         exit(1)
     except (KeyError, AssertionError) as e:
         print(f'\u2715 Could not retrieve info for package {name!r}')
