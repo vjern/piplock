@@ -1,0 +1,28 @@
+# web framework
+quart
+uvicorn
+pydantic
+
+# jobstatus
+requests
+google-cloud-pubsub
+
+# logaus
+pyyaml
+google-cloud-logging
+
+# neomics
+# neo4j==1.7.6
+neo4j==4.1.1
+
+# accessing topic libraries
+google-cloud-storage
+cachetools
+
+# just to load excel/csv, meh ...
+pandas
+xlrd
+openpyxl
+
+# only for dev
+pytest
